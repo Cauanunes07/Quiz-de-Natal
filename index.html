@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz de Natal</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      height: 100vh;
+      background-image: url(https://img.freepik.com/fotos-gratis/belo-fundo-de-natal-em-fundo-branco-com-espaco-de-copia_24972-1722.jpg?t=st=1733157323~exp=1733160923~hmac=a922c53301ba18df1051d018b5847483aa5e2c9bd6f385e569c8dad032b54803&w=1380); 
+      background-size: cover;
+      background-position: center;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .quiz-container {
+      background-color: rgb(0, 102, 0); 
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: white;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin: 20px 0;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .options button {
+      background-color: yellow;
+      color: black;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .options button:hover {
+      background-color: red;
+      transform: translateY(-3px);
+    }
+
+    .options button:focus {
+      outline: none;
+      box-shadow: 0 0 10px red;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result {
+      display: none;
+      font-size: 1.5rem;
+      color: red;
+      margin-top: 20px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 12px;
+      color: red;
+    }
+    p{
+      color: white;
+    }
+  
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h1>Quiz de Natal</h1>
+
+    <div id="quiz">
+      <div class="question">
+        <p>Qual é sua cor natalina favorita?</p>
+        <div class="options">
+          <button data-score="1">Vermelho</button>
+          <button data-score="2">Branco</button>
+          <button data-score="3">Verde</button>
+          <button data-score="4">Dourado</button>
+        </div>
+      </div>
+
+      <div class="question hidden">
+        <p>Qual sua comida favorita no Natal?</p>
+        <div class="options">
+          <button data-score="1">Salpicão</button>
+          <button data-score="2">Pavê</button>
+          <button data-score="3">Peru</button>
+          <button data-score="4">Arroz Com Uva Passa</button>
+        </div>
+      </div>
+
+      <div class="question hidden">
+        <p>Qual decoração de Natal você prefere?</p>
+        <div class="options">
+          <button data-score="1">Pinha</button>
+          <button data-score="2">pisca-pisca</button>
+          <button data-score="3">Meias de natal</button>
+          <button data-score="4">Árvore de Natal</button>
+        </div>
+      </div>
+
+      <div class="question hidden">
+        <p>O que você gosta de fazer no Natal?</p>
+        <div class="options">
+          <button data-score="1">Ceia de Natal</button>
+          <button data-score="2">Ver filmes</button>
+          <button data-score="3">Ganhar Presente</button>
+          <button data-score="4">Juntar a familia</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="result" class="result">
+      <h2>Resultado:</h2>
+      <p id="result-text"></p>
+      <button onclick="location.reload()">Tentar Novamente</button>
+    </div>
+
+  </div>
+
+  <script>
+    const questions = document.querySelectorAll('.question');
+    const resultDiv = document.getElementById('result');
+    const resultText = document.getElementById('result-text');
+    let currentQuestion = 0;
+    let totalScore = 0;
+
+    function showNextQuestion() {
+      if (currentQuestion < questions.length - 1) {
+        questions[currentQuestion].classList.add('hidden');
+        currentQuestion++;
+        questions[currentQuestion].classList.remove('hidden');
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quiz').classList.add('hidden');
+      resultDiv.style.display = 'block';
+
+      if (totalScore <= 5) {
+        resultText.textContent = "Você é o Papai Noel! ";
+      } else if (totalScore <= 8) {
+        resultText.textContent = "Você é a Rena Rudolph! ";
+      } else if (totalScore <= 12) {
+        resultText.textContent = "Você é um Duende! ";
+      } else {
+        resultText.textContent = "Você é o Grinch! ";
+      }
+    }
+
+    document.querySelectorAll('.options button').forEach(button => {
+      button.addEventListener('click', () => {
+        totalScore += parseInt(button.dataset.score);
+        showNextQuestion();
+      });
+    });
+  </script>
+
+</body>
+</html>
